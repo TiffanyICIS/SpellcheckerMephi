@@ -5,20 +5,20 @@
 #include <leptonica/allheaders.h>
 
 
-int main(int argc, char* argv[]) {
+char* OCR(int argc, char* argv) {
     tesseract::TessBaseAPI tessBaseApi;
     tessBaseApi.Init("/usr/local/share/tessdata", "rus");
+    char *filename = NULL;
     if (argc > 1){
-        PIX *pix = pixRead(argv[1]);
+        PIX *pix = pixRead(argv);
         tessBaseApi.SetImage(pix);
         std::string text = tessBaseApi.GetUTF8Text();
-        char *filename = NULL;
         long prefixLength;
-        const char* lastDotPosition = strchr(argv[1], '.');
+        const char* lastDotPosition = strchr(argv, '.');
         if (lastDotPosition != NULL){
-            prefixLength = lastDotPosition - argv[1];
+            prefixLength = lastDotPosition - argv;
             filename = new char[prefixLength + 5];
-            strncpy(filename, argv[1], prefixLength);
+            strncpy(filename, argv, prefixLength);
             strcpy(filename + prefixLength, ".txt\0");
         } else{
             exit(1);
@@ -34,5 +34,5 @@ int main(int argc, char* argv[]) {
         pixDestroy(&pix);
         delete [] filename;
     }
-    return 0;
+    return filename;
 }
