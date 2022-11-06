@@ -52,13 +52,24 @@ void BKTree::add(string w){
     }
 }
 
-void BKTree::search(string w, int t){
+vector<string> BKTree::search(string w, int t){
     vector<string> suggestions;
+    vector<string> empty = {};
     bool wordFound = false;
 
     recursiveSearch(root, suggestions, w, t, wordFound);
-
-    printSuggestions(suggestions, wordFound);
+    if (wordFound){
+        cout << "Word is spelled correctly." << endl;
+        return empty;
+    }
+    else if (suggestions.empty()){
+        cout << "No suggestions found." << endl;
+        return empty;
+    }
+    else{
+        return suggestions;
+    }
+//    printSuggestions(suggestions, wordFound);
 }
 
 void BKTree::recursiveSearch(Node* curNode, vector<string>& suggestions, string w,
@@ -107,7 +118,6 @@ void BKTree::printSuggestions(vector<string>& suggestions, bool wordFound){
     }
 }
 
-//https://en.wikipedia.org/wiki/Levenshtein_distance
 size_t BKTree::levenshteinDistance(string w1, string w2){
     if (w1.length() == 0){
         return w2.length();

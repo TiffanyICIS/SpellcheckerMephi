@@ -32,7 +32,7 @@ class BKTree{
         ~BKTree();
         void add(string w);
         void cleanString(basic_string<char>& s);
-        void search(string w, int t);
+        vector<string> search(string w, int t);
 };
 
 #endif
